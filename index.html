@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Midweek Grace (demo)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFE6CF;--card:#FFF6EE;--blush:#F7DDE5;--rose:#C98F9F;--lav:#EDE5F5;--sage:#A8BFA8;--plum:#513C53;--ink:#513C53;--mute:#76607A;--line:#eadfe4;--btn:#513C53;--btntx:#FFF9F5;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241a26;--card:#33263a;--blush:#4a3347;--lav:#3b2f47;--ink:#f6e9ee;--mute:#cdb5c4;--line:#4a3a52;--btn:#F7DDE5;--btntx:#33263a;--sage:#8fa98f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#241a26;--card:#33263a;--blush:#4a3347;--lav:#3b2f47;--ink:#f6e9ee;--mute:#cdb5c4;--line:#4a3a52;--btn:#F7DDE5;--btntx:#33263a;--sage:#8fa98f;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+header h1{font-size:1.5rem}
+.tag{background:var(--lav);padding:2px 10px;border-radius:99px;font-size:.8rem}
+nav{display:flex;gap:6px;overflow-x:auto;margin:14px 0 18px;padding-bottom:4px}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 16px;border-radius:99px;font:inherit;cursor:pointer;white-space:nowrap}
+nav button[aria-current="page"]{background:var(--btn);color:var(--btntx);border-color:var(--btn)}
+.hero{background:linear-gradient(120deg,var(--blush),var(--lav));border-radius:24px;padding:22px 24px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero h2{font-size:1.6rem;max-width:20ch}
+.hero p{margin:6px 0 0;color:var(--mute)}
+.hero svg{position:absolute;right:10px;bottom:-6px;width:120px;opacity:.55}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:14px}
+.card{background:var(--card);border-radius:20px;padding:18px;box-shadow:0 2px 12px rgba(81,60,83,.08);border:1px solid var(--line)}
+.card h3{font-size:1.05rem;margin-bottom:8px}
+.big{font-family:Fraunces,Georgia,serif;font-size:2rem;line-height:1.1}
+.sm{color:var(--mute);font-size:.88rem}
+button.p{background:var(--btn);color:var(--btntx);border:0;border-radius:12px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+button.p:disabled{opacity:.55;cursor:default}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--rose);border-radius:12px;padding:9px 12px;width:100%;box-sizing:border-box}
+label{display:block;font-weight:600;margin:10px 0 4px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.pill{font-size:.78rem;padding:2px 9px;border-radius:99px;background:var(--lav)}
+.pill.ok{background:var(--sage);color:#2d3d2d}.pill.late{background:var(--blush)}
+.note{padding:10px 14px;border-radius:12px;background:var(--lav);margin-bottom:12px}
+.note.err{background:var(--blush)}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.scroll{max-height:380px;overflow-y:auto}
+.chk{display:flex;gap:8px;align-items:flex-start;font-weight:400}.chk input{width:auto;margin-top:5px}
+.mail{white-space:pre-line;background:var(--bg);border:1px dashed var(--rose);border-radius:14px;padding:14px}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Midweek Grace</h1><span class="tag">Demo with sample data</span></header>
+<nav id="nav" aria-label="Main"></nav>
+<main id="main"></main>
+</div>
+<script>
+const NOW=52,TODAY=19;
+const SD=i=>{const d=new Date(2025,9,22+7*i);return MON[d.getMonth()]+' '+d.getDate()};
+const D=[["Grace Fox",52,35,0,1,""],["Sade Shaw",52,47,1,0,"11-27"],["Hannah Grant",51,23,0,0,"07-10"],["Lydia Foster",51,48,1,1,"09-24"],["Lena Adams",48,16,5,1,"01-09"],["Isla Knight",48,20,0,1,"03-05"],["Paul Foster",47,18,0,1,"03-08"],["Marcus Jones",45,15,8,1,"04-08"],["Brandon Scott",43,33,0,1,"03-01"],["Isla Bell",41,29,0,0,""],["Marcus Owens",40,17,8,1,"08-16"],["Faith Foster",40,20,1,1,""],["Amara Reed",39,16,1,1,"04-02"],["Caleb James",38,17,0,1,""],["Jalen Jones",38,28,2,1,"12-09"],["Zara Quinn",37,20,0,1,""],["Mia Knight",36,27,0,1,"03-12"],["Grace Moore",35,15,0,0,"02-16"],["Sade Adams",35,28,0,0,""],["Silas Quinn",35,27,0,1,"03-14"],["Elijah Torres",34,21,2,1,"12-24"],["Aiden Hunt",33,12,3,1,""],["Zoe Green",33,21,0,1,""],["Brandon Moore",32,18,0,0,""],["Priya Fox",32,11,6,0,"03-08"],["Vera Fox",31,20,0,1,"09-22"],["Zara Hunt",31,16,0,0,"10-16"],["Owen Hall",31,25,0,1,""],["Zoe Scott",30,11,0,1,"10-05"],["Yusuf Knight",30,19,0,1,"06-25"],["Caleb Hayes",30,25,0,1,"03-14"],["Yusuf Ross",28,8,6,1,""],["Owen Price",28,22,0,1,""],["Kayla Cole",28,23,0,1,"04-26"],["Theo Lane",27,11,0,1,"12-15"],["Faith Moore",26,16,0,0,""],["Nia Kim",26,13,0,1,"08-06"],["Aiden Brooks",25,10,0,0,"10-25"],["Gabe Price",25,19,0,1,"08-18"],["Victor Hayes",25,23,0,0,"03-18"],["Tessa Ross",25,9,6,1,"06-14"],["Lena Nash",25,10,0,1,"06-20"],["Wes Hayes",25,21,0,1,""],["Hannah Desai",24,20,0,1,""],["Lydia Park",24,22,0,1,""],["Nia Lewis",24,13,3,1,"11-13"],["Darius Green",24,10,1,1,""],["Opal Lee",21,13,0,0,"04-21"],["Mia Patel",21,10,2,0,"08-11"],["Gabe Mills",19,8,5,1,""],["Xena Torres",19,13,0,1,""],["Dani Park",19,13,2,0,"10-28"],["Terrell Grant",17,12,4,0,""],["Ava Grant",16,8,0,1,"09-18"],["Zara Stone",16,6,2,0,"11-15"],["Kai Foster",16,7,0,1,""],["Andre Bell",15,8,0,1,"10-07"],["Wren Walker",15,9,0,1,"01-26"],["Felix Nash",14,10,0,1,"06-05"],["Isaac Desai",13,8,0,0,""],["Nora Grant",12,5,6,1,""],["Dani Evans",12,11,0,1,""],["Gia Bell",11,6,0,0,"09-10"],["Kai Cole",11,9,0,1,"06-15"],["Elijah Brown",11,8,0,1,"06-21"],["Mira Lewis",10,4,6,1,"03-05"],["Marcus Hayes",9,6,0,0,""],["Marcus James",9,5,2,0,"10-05"],["Darius Scott",8,5,3,1,""],["Lydia Walker",8,3,1,1,"08-07"],["Mia Carter",8,6,0,0,"08-25"],["Bria Knight",7,5,0,1,"02-28"],["Terrell Desai",7,2,5,0,"09-18"],["Vera Mills",6,1,5,0,"08-27"],["Kai Lee",5,2,1,0,"01-23"],["Jada Cole",5,2,1,1,"08-25"],["Tara Ross",5,2,3,1,"12-09"],["Mia Grant",5,3,0,1,"09-06"],["Ivy Quinn",4,2,0,1,""],["Reid Lee",4,3,0,1,"07-28"],["Gia Lewis",4,2,0,1,"04-12"],["Priya Reed",4,2,0,1,""],["Gabe Bell",4,2,0,0,""],["Chloe Bell",4,2,1,0,"05-27"],["Joy Foster",3,1,2,1,"08-15"],["Isla Turner",3,3,0,0,"04-23"],["Brandon Park",3,2,0,0,"09-17"],["Leah Scott",3,2,1,1,"05-17"],["Gabe Desai",3,2,0,1,"10-09"],["Cora Torres",3,2,0,1,""],["Bria Khan",2,2,0,1,""],["Evan Shaw",2,2,0,1,"03-08"],["Nora Brown",2,2,0,1,""],["Nia Price",2,2,0,1,"10-24"],["Evan Price",2,1,1,0,""],["Tia Wells",1,1,0,1,"11-04"],["Tessa Ellis",1,1,0,0,"06-07"],["Gia Ellis",1,1,0,1,"06-23"],["Gabe Park",1,1,0,1,""],["Terrell Walker",1,1,0,0,""]];
+function rnd(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let M=D.map(([n,w,att,k,o,b],i)=>{const f=52-w,l=51-k,a=[f];if(l>f)a.push(l);const r=rnd(i+11),mid=[];for(let x=f+1;x<l;x++)mid.push(x);while(a.length<att&&mid.length)a.push(mid.splice(Math.floor(r()*mid.length),1)[0]);return{n,a:a.sort((x,y)=>x-y),o,b}});
+let T=[],tid=1,tab='Dashboard',note='',noteErr=0,q='';
+const OWN=['Sarah (Leader)','Dee (Volunteer)'];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const status=m=>{const p=m.a.filter(x=>x<NOW);return !m.a.includes(NOW)&&NOW-1-Math.max(...p)>=4?'Inactive':m.a.length==1?'First-Time Visitor':m.a.length==2?'Returning Visitor':'Regular Attendee'};
+const count=i=>M.filter(m=>m.a.includes(i)).length;
+const dstr=d=>'Oct '+d;
+function sync(){M.forEach(m=>{const add=(r,due)=>{if(!T.some(t=>t.m===m&&t.r===r))T.push({id:tid++,m,r,own:OWN[tid%2],due,st:'Pending',last:'Created'})};
+ const l=Math.max(...m.a.filter(x=>x<NOW));
+ if(m.a.length==1&&m.a[0]>=NOW-3)add('Welcome a first-time visitor',m.a[0]==NOW?26:m.a[0]==NOW-1?21:16);
+ if(m.a.length>=3&&!m.a.includes(NOW)&&NOW-1-l>=2&&NOW-1-l<=4)add('Missed 2 meetings in a row',23)})}
+sync();
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function bdays(){const now=new Date(2026,9,TODAY);return M.map(m=>{const b=m.b;if(!b)return null;const [mo,d]=b.split('-').map(Number);let dt=new Date(2026,mo-1,d);if(dt<now)dt=new Date(2027,mo-1,d);return{m,days:Math.round((dt-now)/864e5),label:MON[mo-1]+' '+d}}).filter(Boolean).sort((a,b)=>a.days-b.days)}
+function bToday(){const t=bdays().filter(x=>x.days==0).map(x=>x.m.n);return t.length?'Happy birthday today to '+t.map(esc).join(' and ')+'! Take a moment to celebrate together.':'Welcome back. Here is how the group is doing.'}
+function bdCard(){const all=bdays().filter(x=>x.days<=30),l=all.slice(0,6);return `<div class="card"><h3>Birthdays to celebrate</h3>${l.length?l.map(x=>`<div class="row"><b>${esc(x.m.n)}</b><span class="sm">${x.days==0?'Today!':x.days==1?'Tomorrow':x.label+', in '+x.days+' days'}</span></div>`).join(''):'<p class="sm">No birthdays in the next 30 days.</p>'}${all.length>6?`<p class="sm">+${all.length-6} more in the next 30 days</p>`:''}<p class="sm">Birthdays are optional and visible to leaders only.</p></div>`}
+function chart(){const n=NOW,v=Array.from({length:n+1},(_,i)=>count(i)),mx=Math.max(...v)+5,W=560,H=200,x=i=>40+i*(W-70)/n,y=c=>H-30-c*(H-60)/mx;
+ const pts=v.slice(0,n).map((c,i)=>x(i)+','+y(c)).join(' ');
+ return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly attendance over the past year" style="width:100%;height:auto">
+ ${[0,Math.round(mx/2),mx].map(g=>`<line x1="40" x2="${W-20}" y1="${y(g)}" y2="${y(g)}" stroke="currentColor" opacity=".12"/><text x="32" y="${y(g)+4}" text-anchor="end" font-size="11" fill="currentColor" opacity=".7">${g}</text>`).join('')}
+ <polyline points="${pts}" fill="none" stroke="currentColor" stroke-width="2.5"/>
+ <line x1="${x(n-1)}" y1="${y(v[n-1])}" x2="${x(n)}" y2="${y(v[n])}" stroke="currentColor" stroke-dasharray="4 4" opacity=".6"/>
+ <circle cx="${x(n-1)}" cy="${y(v[n-1])}" r="5" fill="#C98F9F"/><text x="${x(n-1)}" y="${y(v[n-1])-11}" text-anchor="middle" font-size="12" fill="currentColor">${v[n-1]}</text>
+ <circle cx="${x(n)}" cy="${y(v[n])}" r="5" fill="none" stroke="#C98F9F" stroke-width="2.5"/><text x="${x(n)}" y="${y(v[n])-11}" text-anchor="middle" font-size="12" fill="currentColor">${v[n]}</text>
+ ${[0,13,26,39,52].map(i=>`<text x="${i==52?x(i)-8:x(i)}" y="${H-8}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".7">${SD(i)}</text>`).join('')}</svg>`}
+function dash(){const L=NOW-1,c=Array.from({length:NOW+1},(_,i)=>count(i)),avg=(c.slice(L-11,L+1).reduce((a,b)=>a+b,0)/12).toFixed(1),gr=Math.round((c[L]-c[L-1])/c[L-1]*100);
+ const coh=M.filter(m=>m.a[0]>=L-11&&m.a[0]<=L),ret=coh.filter(m=>m.a.length>1).length,wait=coh.filter(m=>m.a.length==1&&m.a[0]==L).length,no=coh.length-ret-wait;
+ const open=T.filter(t=>t.st!=='Completed'),od=open.filter(t=>t.due<TODAY).length;
+ const bk=[['Up to 8 weeks',0,8],['9 to 26 weeks',9,26],['27 to 52 weeks',27,52]].map(([n,lo,hi])=>[n,M.filter(m=>{const w=NOW-m.a[0];return w>=lo&&w<=hi}).length]);
+ return `<section class="hero"><h2>Growing Together in Faith, One Midweek at a Time</h2><p>${bToday()}</p>
+ <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 95C50 60 52 30 70 8M50 70C35 62 28 52 26 40c14 2 24 12 24 30zM52 52C66 46 72 36 74 24c-14 4-22 14-22 28z" fill="none" stroke="#513C53" stroke-width="3" stroke-linecap="round"/></svg></section>
+ <div class="grid"><div class="card"><div class="sm">Members</div><div class="big">${M.length}</div></div>
+ <div class="card"><div class="sm">Last meeting (Oct 14)</div><div class="big">${c[L]}</div></div>
+ <div class="card"><div class="sm">Average, last 12 meetings</div><div class="big">${avg}</div></div>
+ <div class="card"><div class="sm">Growth vs. Oct 7</div><div class="big">${gr>0?'+':''}${gr}%</div></div></div>
+ <div class="two"><div class="card"><h3>Weekly attendance, past year</h3>${chart()}<p class="sm">Hollow point: Oct 21 so far (${c[NOW]} checked in).</p></div>
+ <div style="display:grid;gap:14px"><div class="card"><h3>Next meeting</h3><div class="big" style="font-size:1.3rem">Wednesday, October 21 at 6:30 PM</div><p class="sm">Student Center, Room 204 (sample location). ${M.filter(m=>m.o).length} members have opted in to reminders.</p></div>
+ <div class="card"><h3>How long students have been coming</h3>${bk.map(([n,k])=>`<div class="row"><span style="width:110px">${n}</span><div style="flex:1;background:var(--lav);border-radius:99px;height:12px"><div style="width:${Math.round(k/M.length*100)}%;background:var(--sage);height:12px;border-radius:99px"></div></div><b>${k}</b></div>`).join('')}</div>
+ <div class="card"><h3>Visitor retention</h3><p style="margin:0"><b>${ret} of ${ret+no}</b> people who started in the last 12 meetings came back for a second visit.</p><p class="sm">${wait} more joined on Oct 14 and have not had a chance to return yet, so they are not counted as missed.</p></div>
+ <div class="card"><h3>Follow-ups</h3><p style="margin:0">${open.length} open, <b>${od}</b> overdue.</p></div>${bdCard()}</div></div>`}
+function roster(){const l=M.map((m,i)=>[m,i]).filter(([m])=>m.n.toLowerCase().includes(q.toLowerCase()));
+ return l.length?l.map(([m,i])=>`<div class="row"><div><b>${esc(m.n)}</b><div class="sm">${status(m)}${m.t?' | in at '+m.t:''}</div></div>${m.a.includes(NOW)?'<span class="pill ok">Present</span>':`<button class="p" onclick="checkIn(${i})">Check in</button>`}</div>`).join(''):'<p class="sm">No match. Use the visitor form to add someone new.</p>'}
+function checkin(){return `${note?`<div class="note${noteErr?' err':''}" role="status">${note}</div>`:''}
+ <div class="two"><div class="card"><h3>Staff roster, Oct 21</h3><p class="sm">${count(NOW)} present. Each person can be counted once per meeting.</p><label for="q">Search members</label><input id="q" value="${esc(q)}" oninput="q=this.value;document.getElementById('ros').innerHTML=roster()"><div id="ros" class="scroll" style="margin-top:8px">${roster()}</div></div>
+ <div class="card"><h3>Visitor self check-in</h3><p class="sm">This is what a visitor sees after scanning the QR code. It never shows the member list.</p>
+ <label for="nm">Your name</label><input id="nm" autocomplete="off"><label for="ph">Phone or email (optional)</label><input id="ph">
+ <label for="bd">Birthday (optional, year not needed)</label><input id="bd" type="date"><label class="chk"><input type="checkbox" id="cs"> Yes, send me weekly meeting reminders by email. I can opt out at any time.</label>
+ <p><button class="p" onclick="selfIn()">Check in</button></p></div></div>`}
+function checkIn(i){const m=M[i];if(m.a.includes(NOW)){say('Already checked in.',1);return}m.a.push(NOW);m.t=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});say(esc(m.n)+' is checked in.');}
+function selfIn(){const nm=document.getElementById('nm').value.trim();if(!nm){say('Enter your name to check in.',1);return}
+ const i=M.findIndex(m=>m.n.toLowerCase()===nm.toLowerCase());
+ if(i>=0){const m=M[i];if(m.a.includes(NOW)){say('You are already checked in. No duplicate was created.',1);return}checkIn(i);say('Welcome back, '+esc(m.n.split(' ')[0])+'. You were matched to your existing record, so no duplicate was created.');return}
+ M.push({n:nm,a:[NOW],b:(document.getElementById('bd').value||'').slice(5),o:document.getElementById('cs').checked?1:0,t:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});sync();say('Welcome, '+esc(nm)+'! You are checked in as a first-time visitor and a welcome follow-up was created.');}
+function say(t,e){note=t;noteErr=e?1:0;render()}
+function follow(){const open=T.filter(t=>t.st!=='Completed');
+ return `<div class="card"><h3>Follow-Up Center</h3><p class="sm">${open.length} open. Only one open task per person and reason. Tasks are generated from stored attendance, and no reason for absence is assumed.</p>
+ ${T.map(t=>{const late=t.due<TODAY&&t.st!=='Completed';return `<div class="row" style="flex-wrap:wrap"><div style="flex:1;min-width:200px"><b>${esc(t.m.n)}</b><div class="sm">${t.r}. Owner: ${t.own}. Due ${dstr(t.due)}. Last action: ${t.last}.</div></div>${late?'<span class="pill late">Overdue</span>':''}<select aria-label="Status for ${esc(t.m.n)}" style="width:auto" onchange="setSt(${t.id},this.value)">${['Pending','In Progress','Completed','Deferred'].map(s=>`<option${s==t.st?' selected':''}>${s}</option>`).join('')}</select></div>`}).join('')}</div>`}
+function setSt(id,v){const t=T.find(t=>t.id==id);t.st=v;t.last='Marked '+v+' (Oct '+TODAY+')';render()}
+function remind(){const f=(M.find(m=>m.o)||M[0]).n.split(' ')[0],n=M.filter(m=>m.o).length;
+ return `<div class="two"><div class="card"><h3>Weekly reminder template</h3><p class="sm">Preview for one recipient. Members who opted out get nothing.</p><div class="mail"><b>Subject: You are invited to Midweek Bible Study!</b>
+
+Hello ${esc(f)},
+We would love to see you at Midweek Bible Study this week! Join us for fellowship, prayer, and studying God’s Word.
+Date: Wednesday, October 21   Time: 6:30 PM   Location: Student Center, Room 204
+We look forward to seeing you!
+With love, The Midweek Bible Study Team
+
+Unsubscribe link goes here.</div></div>
+ <div class="card"><h3>Who would receive it</h3><p style="margin:0"><b>${n} of ${M.length}</b> members have given email consent. Recipient lists stay private.</p><h3 style="margin-top:16px">Send history</h3><p class="sm">Nothing sent. This demo does not send real email. The full app would log queued, sent, and failed separately.</p></div></div>`}
+const TABS={Dashboard:dash,'Check-in':checkin,'Follow-ups':follow,Reminders:remind};
+function render(){document.getElementById('nav').innerHTML=Object.keys(TABS).map(k=>`<button ${k==tab?'aria-current="page"':''} onclick="tab='${k}';note='';render()">${k}</button>`).join('');document.getElementById('main').innerHTML=TABS[tab]()}
+render();
+</script>
+</body>
+</html>
